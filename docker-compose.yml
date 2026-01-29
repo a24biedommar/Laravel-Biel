@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  # 1. El servidor de la aplicación (PHP + Laravel)
+  app:
+    image: bitnami/laravel:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    command: php artisan serve --host=0.0.0.0 --port=8000
+  # 2. La base de datos (MySQL)
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_DATABASE=todo_db
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
