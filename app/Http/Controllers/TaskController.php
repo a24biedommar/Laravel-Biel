@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -10,23 +11,30 @@ class TaskController extends Controller
     //1. Funció per mostrar totes les tasques
     public function index(){
         $tasques = Task::all();
-        return view('todo', ['totesLesTasques' => $tasques]);
+        $categories = Category::all();
+        return view('tasks.index', [
+            'totesLesTasques' => $tasques,
+            'totesLesCategories' => $categories,
+        ]);
     }
     //2. Funció per guardar una nova tasca
     public function store(Request $request){
         $request->validate([
             'titol' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
         ]);
         Task::create([
-            'titol' => $request->titol
+            'titol' => $request->titol,
+            'category_id' => $request->category_id,
         ]);
         return redirect()->back();
     }
-    //3. Funció per marcar una tasca com a completada (update)
-    public function update($id){
-        $tasca = Task::findOrFail($id); //Busquem la tasca per ID
-        $tasca->completada = !$tasca->completada; //Cambien l'estat (al reves de lo que era)
-        $tasca->save();
+    //3. Funció per cambiar o el nom o la categoria de la tasca(update)
+    public function update(Request $request, $id){
+        $task = Task::findOrFail($id);
+        $task->titol = $request->titol;
+        $task->category_id = $request->category_id;
+        $task->save();
         return redirect()->back();
     }
 

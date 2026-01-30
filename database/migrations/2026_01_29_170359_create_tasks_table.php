@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('titol');
-            $table->foreignId('category_id')->constrained();
-            $table->boolean('completada')->default(false);
+            $table->foreignId('category_id')->constrained()->restrictOnDelete(); //RESTRICT es per que no es pugui eliminar la categoria si hi ha tasques associades
             $table->timestamps();
         });
     }

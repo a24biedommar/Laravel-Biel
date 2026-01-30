@@ -9,8 +9,6 @@ use App\Http\Controllers\CategoryController;
 Route::get('/categories', [CategoryController::class, 'index']);
 //Ruta per guardar una nova categoria
 Route::post('/categories/guardar', [CategoryController::class, 'store']);
-//Ruta per actualitzar una categoria
-Route::put('/categories/actualitzar/{id}', [CategoryController::class, 'update']);
 //Ruta per eliminar una categoria
 Route::delete('/categories/eliminar/{id}', [CategoryController::class, 'destroy']);
 

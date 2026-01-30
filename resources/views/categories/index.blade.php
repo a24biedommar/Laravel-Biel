@@ -2,6 +2,12 @@
 <html>
 <head><title>Categories</title></head>
 <body>
+    @if (session('error'))
+        <div style="color:red;">
+            <b>Error:</b> {{ session('error') }}
+        </div>
+    @endif
+
     <h1>Gestió de Categories</h1>
     <form action="/tasks" method="GET" style="display:inline">
         <button type="submit">Anar a Tasques</button>
@@ -21,9 +27,6 @@
         @forelse ($totesLesCategories as $category)
             <li>
                 <b>{{ $category->name }}</b>
-                <form action="/categories/{{ $category->id }}" method="GET" style="display:inline">
-                    <button type="submit">Editar</button>
-                </form>
                 
                 <form action="/categories/eliminar/{{ $category->id }}" method="POST">
                     @csrf @method('DELETE')
